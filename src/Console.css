@@ -1,0 +1,13 @@
+.react-terminal-wrapper {
+    padding: 25px 15px 15px;
+    height: 100%;
+    font-size: 13px;
+}
+
+.react-terminal-wrapper::before {
+    content: none;
+}
+
+.react-terminal {
+    height: 100%;
+}
