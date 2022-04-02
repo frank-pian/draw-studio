@@ -1,29 +1,29 @@
-import { useEffect } from 'react'
 import './App.css';
 import Editor from './Editor';
 import Console from './Console';
 import Viewer from './Viewer';
 import { SplitPane } from 'react-multi-split-pane';
-import CreateModule from './createModule';
+import DrawexeModule from './drawexeModule';
 function App() {
-
-  useEffect(() => {
-
-  }, [])
 
   return (
     <SplitPane split="vertical"
       minSize={200}
       defaultSize={100}
       onDragFinished={(size) => {
-        CreateModule.getInstance().then(module => {
-          console.log(`vinit -width ${parseInt(size[1])}`)
-          module.eval(`vinit -width ${parseInt(size[1])}`);
-        });
+        DrawexeModule.eval(['vinit', '-width', parseInt(size[1])]);
+        DrawexeModule.eval('vfit');
       }}
     >
       <Editor></Editor>
-      <SplitPane split="horizontal" defaultSize={100}>
+      <SplitPane
+        split="horizontal"
+        defaultSize={100}
+        onDragFinished={(size) => {
+          DrawexeModule.eval(['vinit', '-height', parseInt(size[0])]);
+          DrawexeModule.eval('vfit');
+        }}
+      >
         <Viewer></Viewer>
         <Console />
       </SplitPane>

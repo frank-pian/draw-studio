@@ -1,22 +1,21 @@
 // import createDRAWEXE from "./DRAWEXE.js";
 
-class CreateModule {
+class DrawexeModule {
     constructor() {
         this.module = null;
-        this.loading = false;
-        this.messageData = [];
+        this.loaded = false;
+        this.drawModule = [];
         // this.getInstance();
     }
     static async getInstance(func) {
         if (!this.instance) {
             this.instance = this;
-            this.loading = true;
             const module = await window.createDRAWEXE({
                 noExitRuntime: true,
                 print: func,
                 canvas: window.document.getElementById('occViewerCanvas')
             })
-            this.instance.loading = false;
+            this.instance.loaded = true;
             this.instance.module = module;
 
             return module;
@@ -24,9 +23,22 @@ class CreateModule {
         }
         return this.instance.module
     }
-    static recordMessage(str) {
-        this.messageData.push(str);
+    static async eval(cmd) {
+        if (!this.loaded) {
+            return;
+        }
+        let evalCmd = "";
+        if (cmd instanceof Array) {
+            evalCmd = cmd.join(" ");
+        } else {
+            evalCmd = cmd;
+        }
+
+        console.log(evalCmd, "[Input]");
+        await this.getInstance().then(module => {
+            return module.eval(evalCmd);
+        });
     }
 }
 
-export default CreateModule;
+export default DrawexeModule;
