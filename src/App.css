@@ -1,43 +1,21 @@
-.App {
-  text-align: center;
+#root {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.body {
+  width: 100%;
+  height: 100%;
 }
 
 /* split-pane */
+.SplitPane {
+  height: calc(100% - 60px) !important;
+  top: 60px;
+}
+
 .Resizer {
   background: #000;
   opacity: .2;
@@ -58,7 +36,8 @@
   cursor: row-resize;
 }
 
-.Resizer.horizontal:hover, .Resizer.horizontal.resizing {
+.Resizer.horizontal:hover,
+.Resizer.horizontal.resizing {
   border-top: 5px solid rgba(0, 0, 0, 0.5);
   border-bottom: 5px solid rgba(0, 0, 0, 0.5);
 }
@@ -71,24 +50,25 @@
   cursor: col-resize;
 }
 
-.Resizer.vertical:hover, .Resizer.vertical.resizing {
+.Resizer.vertical:hover,
+.Resizer.vertical.resizing {
   border-left: 5px solid rgba(0, 0, 0, 0.5);
   border-right: 5px solid rgba(0, 0, 0, 0.5);
 }
 
 .DragLayer {
-z-index: 1;
-pointer-events: none;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .DragLayer.resizing {
-pointer-events: auto;
+  pointer-events: auto;
 }
 
 .DragLayer.horizontal {
-cursor: row-resize;
+  cursor: row-resize;
 }
 
 .DragLayer.vertical {
-cursor: col-resize;
+  cursor: col-resize;
 }

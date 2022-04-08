@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PubSub from 'pubsub-js';
 import Terminal, { ColorMode, LineType } from 'react-terminal-ui';
 import DrawexeModule from './drawexeModule'
 import './Console.css'
@@ -22,6 +23,12 @@ function Console() {
             terminalOutput("Loading completed");
         });
     });
+    useDidMount(() => {
+        PubSub.subscribe('/console/print', (message, data) => {
+            terminalOutput(data);
+        });
+    });
+
 
     function terminalOutput(str) {
         setTerminalLineData(prev => [...prev, { type: LineType.Output, value: str }]);
