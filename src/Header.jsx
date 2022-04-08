@@ -1,6 +1,7 @@
 import React from 'react';
-import './Header.css'
-import DrawexeModule from './drawexeModule'
+import './Header.css';
+import PubSub from 'pubsub-js';
+import DrawexeModule from './drawexeModule';
 
 function Header() {
     const upBtn = () => {
@@ -11,10 +12,13 @@ function Header() {
         let file = event.target.files[0];
         DrawexeModule.uploadFile(file, "", true)
     }
+    const clickRun = () => {
+        PubSub.publish("/editor/runCode");
+    }
     return (
         <div className='Header'>
             <span className='title'>Draw Harness Studio</span>
-            <div className='button run'>Run</div>
+            <div className='button run' onClick={clickRun}>Run</div>
             <div className='button upload-wrap' onClick={upBtn}>
                 Upload
                 <input type="file" id="upload-file" onChange={upChange} />

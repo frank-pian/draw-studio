@@ -7,6 +7,12 @@ import DrawexeModule from './drawexeModule';
 import './App.css';
 function App() {
 
+  function getCanvasSize() {
+    const canvasRect = document.getElementById("occViewerCanvas").getBoundingClientRect();
+    DrawexeModule.eval(['vinit', '-width', parseInt(canvasRect.width), '-height', parseInt(canvasRect.height)]);
+    //DrawexeModule.eval('vfit');
+  }
+
   return (
     <div className='body'>
       <Header></Header>
@@ -16,8 +22,9 @@ function App() {
         minSize={100}
         defaultSize={100}
         onDragFinished={(size) => {
-          DrawexeModule.eval(['vinit', '-width', parseInt(size[1])]);
-          DrawexeModule.eval('vfit');
+          // DrawexeModule.eval(['vinit', '-width', parseInt(getCanvasSize().width)]);
+          // DrawexeModule.eval('vfit');
+          getCanvasSize();
         }}
       >
         <Editor></Editor>
@@ -25,8 +32,9 @@ function App() {
           split="horizontal"
           defaultSize={100}
           onDragFinished={(size) => {
-            DrawexeModule.eval(['vinit', '-height', parseInt(size[0])]);
-            DrawexeModule.eval('vfit');
+            // DrawexeModule.eval(['vinit', '-height', parseInt(size[0])]);
+            // DrawexeModule.eval('vfit');
+            getCanvasSize();
           }}
         >
           <Viewer></Viewer>

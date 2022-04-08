@@ -40,7 +40,7 @@ class DrawexeModule {
             return module.eval(evalCmd);
         });
     }
-    static async uploadFile(fileObject, theFilePath, theToPreload) {
+    static async uploadFile(fileObject, theFilePath, theToPreload, sccuessFunc) {
         await this.getInstance().then(module => {
             let aReader = new FileReader();
             aReader.onload = () => {
@@ -50,14 +50,13 @@ class DrawexeModule {
                 }
                 let aDataArray = new Uint8Array(aReader.result);
                 PubSub.publish('/console/print', `Uploading file ${fileObject.name} of size ${aDataArray.length} bytes to ${aFilePath}...`);
-                //module.FS.writeFile(aFilePath, aDataArray);
+                module.FS.writeFile(aFilePath, aDataArray);
                 if (theToPreload) {
-                    console.log(!aFilePath.startsWith("/") ? module.FS.cwd() : "/");
                     module.FS.createPreloadedFile(!aFilePath.startsWith("/") ? module.FS.cwd() : "/",
                         aFilePath,
                         aDataArray, true, true,
-                        () => { console.log("preload sccuess") },
-                        () => { throw new Error("Preload failed") });
+                        sccuessFunc,
+                        () => { throw new Error("Preload failed") }, true);
                 }
             }
             aReader.readAsArrayBuffer(fileObject);

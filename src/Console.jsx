@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PubSub from 'pubsub-js';
 import Terminal, { ColorMode, LineType } from 'react-terminal-ui';
-import DrawexeModule from './drawexeModule'
+import DrawexeModule from './drawexeModule';
 import './Console.css'
 
 function useDidMount(fn) {
