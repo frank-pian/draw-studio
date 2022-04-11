@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'Ubuntu Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: local(Ubuntu Mono), url(assests/fonts/ubuntu_mono.woff2) format('woff2');
+  font-display: swap;
+}
