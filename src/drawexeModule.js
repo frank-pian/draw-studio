@@ -64,4 +64,7 @@ class DrawexeModule {
     }
 }
 
+PubSub.subscribe("/drawexe/eval", (msg, data) => {
+    DrawexeModule.eval(data);
+});
 export default DrawexeModule;

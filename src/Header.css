@@ -27,6 +27,11 @@
     color: #fff;
     cursor: pointer;
     user-select: none;
+    text-align: center;
+}
+
+.debug {
+    width: 80px;
 }
 
 .button:hover {
@@ -34,8 +39,19 @@
     color: #000;
 }
 
+.press {
+    background-color: #fff;
+    color: #000;
+}
+
+.continue {
+    width: 100px;
+    display: none;
+}
+
 .upload-wrap {
     width: 80px;
+    float: right;
 }
 
 #upload-file {
