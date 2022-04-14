@@ -31,7 +31,7 @@
 }
 
 .debug {
-    width: 80px;
+    padding: 5px 15px;
 }
 
 .button:hover {
@@ -42,6 +42,7 @@
 .press {
     background-color: #fff;
     color: #000;
+    padding: 20px 15px;
 }
 
 .continue {

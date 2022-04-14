@@ -13,7 +13,6 @@ function App() {
     const canvasRect = document.getElementById("occViewerCanvas").getBoundingClientRect();
     DrawexeModule.eval(['vinit', '-width', parseInt(canvasRect.width), '-height', parseInt(canvasRect.height)]);
     //DrawexeModule.eval('vfit');
-    console.log(debugStatus);
   }
 
   return (

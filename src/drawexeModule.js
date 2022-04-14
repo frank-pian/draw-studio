@@ -40,6 +40,15 @@ class DrawexeModule {
             return module.eval(evalCmd);
         });
     }
+    static isComplete(cmd) {
+        return new Promise((resolve, reject) => {
+            this.getInstance().then(module => {
+                resolve(module.isComplete(cmd));
+            }).catch((e) => {
+                reject(e);
+            });
+        });
+    }
     static async uploadFile(fileObject, theFilePath, theToPreload, sccuessFunc) {
         await this.getInstance().then(module => {
             let aReader = new FileReader();

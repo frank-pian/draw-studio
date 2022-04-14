@@ -19,7 +19,6 @@ function Header(props) {
         PubSub.publish("/editor/runCode");
     }
     const clickDebug = () => {
-        console.log(props.debugStatus);
         if (props.debugStatus) {
             PubSub.publish("/editor/debugCode/stop");
         } else {
@@ -33,7 +32,7 @@ function Header(props) {
         <div className='Header'>
             <span className='title'>Draw Harness Studio</span>
             <div className='button run' onClick={clickRun}>Run</div>
-            <div className={props.debugStatus ? "button debug press" : "button debug"} onClick={clickDebug}>{props.debugStatus ? "Stop" : "Debug"}</div>
+            <div className={props.debugStatus ? "button debug press" : "button debug"} onClick={clickDebug}>{props.debugStatus ? "Stop" : "One Step"}</div>
             <div className='button continue' style={props.debugStatus ? { display: "inline-block" } : { display: "none" }} onClick={clickContinue}>Continue</div>
             <div className='button upload-wrap' onClick={upBtn}>
                 Upload
