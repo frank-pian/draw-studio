@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PubSub from 'pubsub-js';
 import Terminal, { ColorMode, LineType } from 'react-terminal-ui';
 import DrawexeModule from './drawexeModule';
+import { ShowLoading } from './contextManager'
 import './Console.css'
 
 function useDidMount(fn) {
@@ -12,15 +13,18 @@ function Console() {
     const [terminalLineData, setTerminalLineData] = useState([
         { type: LineType.Output, value: 'Welcome to the Draw Harness Studio!' }
     ]);
+    const loadingStatus = useContext(ShowLoading);
 
     let disabledInput = false;
 
     useDidMount(() => {
         disabledInput = true;
         terminalOutput("Loading wasm file...");
+        loadingStatus.setLoadingStatus(true);
         DrawexeModule.getInstance(addLd).then(module => {
             disabledInput = false;
             terminalOutput("Loading completed");
+            loadingStatus.setLoadingStatus(false);
         });
     });
     useDidMount(() => {

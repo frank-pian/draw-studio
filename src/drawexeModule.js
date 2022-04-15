@@ -24,6 +24,25 @@ class DrawexeModule {
         }
         return this.instance.module
     }
+    static eval2(cmd) {
+        return new Promise((resolve, reject) => {
+            if (!this.loaded) {
+                return;
+            }
+            let evalCmd = "";
+            if (cmd instanceof Array) {
+                evalCmd = cmd.join(" ");
+            } else {
+                evalCmd = cmd;
+            }
+            console.log(evalCmd, "[Input]");
+            this.getInstance().then(module => {
+                resolve(module.eval(evalCmd));
+            }).catch((e) => {
+                reject(e);
+            });
+        });
+    }
     static async eval(cmd) {
         if (!this.loaded) {
             return;

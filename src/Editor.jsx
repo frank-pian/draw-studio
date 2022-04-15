@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AceEditor from "react-ace";
 import PubSub from 'pubsub-js';
 import DrawexeModule from './drawexeModule';
+import { ShowLoading } from './contextManager'
 
 import "ace-builds/src-noconflict/mode-tcl";
 import "ace-builds/src-noconflict/snippets/tcl";
@@ -11,6 +12,7 @@ import "ace-builds/src-noconflict/ext-language_tools"
 import './Editor.css'
 
 class Editor extends Component {
+    // static contextType = ShowLoading;
     constructor(props) {
         super(props);
         this.aceRef = React.createRef();
@@ -114,13 +116,18 @@ vbackground -color WHITE`,
     componentDidMount() {
         PubSub.unsubscribe("/editor/runCode");
         PubSub.subscribe("/editor/runCode", () => {
-            const codeFile = new File([this.state.text], "code.tcl", {
-                type: "text/plain",
-            });
-            DrawexeModule.uploadFile(codeFile, "", true, () => {
-                DrawexeModule.eval(['source', 'code.tcl']);
-            });
+            this.context.setLoadingStatus(true);
+            setTimeout(() => {
+                const codeFile = new File([this.state.text], "code.tcl", {
+                    type: "text/plain",
+                });
+                DrawexeModule.uploadFile(codeFile, "", true, () => {
+                    DrawexeModule.eval2(['source', 'code.tcl']).then(() => {
+                        this.context.setLoadingStatus(false);
+                    });
 
+                });
+            }, 100)
         });
 
         PubSub.unsubscribe("/editor/debugCode/start");
@@ -187,4 +194,5 @@ vbackground -color WHITE`,
         />;
     }
 }
+Editor.contextType = ShowLoading;
 export default Editor;
