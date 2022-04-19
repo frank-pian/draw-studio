@@ -51,7 +51,7 @@ function Console() {
         if (input.toLocaleLowerCase() === 'clear') {
             setTerminalLineData([]);
         }
-        DrawexeModule.eval(input);
+        PubSub.publish("/drawexe/eval", input);
     }
     return (
         <Terminal

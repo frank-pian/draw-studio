@@ -90,9 +90,71 @@ class DrawexeModule {
             aReader.readAsArrayBuffer(fileObject);
         });
     }
+    static downloadFile(fileNamePath) {
+        let fileName = fileNamePath;
+        let pathSplit = fileNamePath.split("/");
+        if (pathSplit > 1) {
+            fileName = pathSplit[pathSplit.length - 1];
+        }
+        let aNameLower = fileNamePath.toLowerCase();
+        let aType = "application/octet-stream";
+        if (aNameLower.endsWith(".png")) {
+            aType = "image/png";
+        }
+        else if (aNameLower.endsWith(".jpg")
+            || aNameLower.endsWith(".jpeg")) {
+            aType = "image/jpeg";
+        }
+        this.getInstance().then(module => {
+            try {
+                let data = module.FS.readFile(fileNamePath);
+                PubSub.publish('/console/print', `Downloading file ${fileName} of size ${data.length} bytes...`);
+                this.downloadDataFile(data, fileName, aType);
+            } catch (e) {
+                PubSub.publish('/console/print', `Error: file ${fileNamePath} cannot be read with ${e}`);
+            }
+        });
+    }
+
+    /**
+   * Function to download data to a file.
+   * @param[in] {Uint8Array} theData data to download
+   * @param[in] {string} theFileName default file name to download data as
+   * @param[in] {string} theType data MIME type
+   */
+    static downloadDataFile(theData, theFileName, theType) {
+        let aFileBlob = new Blob([theData], { type: theType });
+        let aLinkElem = document.createElement("a");
+        let anUrl = URL.createObjectURL(aFileBlob);
+        aLinkElem.href = anUrl;
+        aLinkElem.download = theFileName;
+        document.body.appendChild(aLinkElem);
+        aLinkElem.click();
+        setTimeout(function () {
+            document.body.removeChild(aLinkElem);
+            window.URL.revokeObjectURL(anUrl);
+        }, 0);
+    }
 }
 
-PubSub.subscribe("/drawexe/eval", (msg, data) => {
-    DrawexeModule.eval(data);
+/**
+ * @param {string} cmd command
+ */
+PubSub.subscribe("/drawexe/eval", (msg, cmd) => {
+    if (cmd === "") {
+        return;
+    }
+    if (cmd.startsWith("#")) {
+        return;
+    }
+    const cmdList = cmd.split(" ");
+    switch (cmdList[0]) {
+        case "jsdownload":
+            DrawexeModule.downloadFile(cmdList[1]);
+            break;
+        default:
+            DrawexeModule.eval(cmd);
+            break;
+    }
 });
 export default DrawexeModule;
