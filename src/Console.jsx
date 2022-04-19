@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PubSub from 'pubsub-js';
 import Terminal, { ColorMode, LineType } from 'react-terminal-ui';
+import './Console.css'
 import DrawexeModule from './drawexeModule';
 import { ShowLoading } from './contextManager'
-import './Console.css'
 
 function useDidMount(fn) {
     useEffect(fn, []);
@@ -52,6 +52,7 @@ function Console() {
             setTerminalLineData([]);
         }
         PubSub.publish("/drawexe/eval", input);
+
     }
     return (
         <Terminal
