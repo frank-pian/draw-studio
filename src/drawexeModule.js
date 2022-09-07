@@ -135,6 +135,23 @@ class DrawexeModule {
             window.URL.revokeObjectURL(anUrl);
         }, 0);
     }
+
+    static showRootDir() {
+        this.getInstance().then(module => {
+            for(const fsFileName of module.FS.readdir('/')) {
+                PubSub.publish('/console/print', fsFileName);
+            }
+        });
+    }
+
+    
+
+    static deleteFile(fileName) {
+        this.getInstance().then(module => {
+            module.FS.unlink(fileName);
+            PubSub.publish('/console/print', "delete "+fileName);
+        });
+    }
 }
 
 /**
@@ -151,6 +168,12 @@ PubSub.subscribe("/drawexe/eval", (msg, cmd) => {
     switch (cmdList[0]) {
         case "jsdownload":
             DrawexeModule.downloadFile(cmdList[1]);
+            break;
+        case "remove":
+            DrawexeModule.deleteFile(cmdList[1]);
+            break;
+        case "ls":
+            DrawexeModule.showRootDir();
             break;
         default:
             DrawexeModule.eval(cmd);
